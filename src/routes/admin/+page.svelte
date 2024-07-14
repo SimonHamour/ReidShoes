@@ -58,7 +58,7 @@ showContent = (contentId) => {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" on:click={showContent('pelanggan')}>
+                        <a class="nav-link" href="/user">
                             <span data-feather="users"></span>
                             Lihat Profile
                         </a>
