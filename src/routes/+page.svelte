@@ -1,13 +1,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link rel="stylesheet" href="style.css">
-<script>
-// @ts-nocheck
+<script lang="ts">
+
+    import type { PageData } from './$types';
+    export let data: PageData;
     import { onMount } from 'svelte';
-    import { base } from '$app/paths';
+
     let isChecked = false;
-    let menuClick;
-    let next;
-    let prev;
+    let menuClick: any;
+    let next: any;
+    let prev: any;
     onMount(()=> {
         let menu = document.querySelector('#menu-bar');
         let navbar = document.querySelector('.navbar');
@@ -92,13 +94,11 @@
         
             if(null !== toggleLabel){
                 if (isChecked) {
-                    console.log("Hilih Kintil");
                     toggleLabel.textContent = 'Indonesian';
                     elementsToTranslate.forEach(el => {
                     el.textContent = el.getAttribute('data-id');
                     });
                 } else {
-                    console.log("Hilih Kintil");
                     toggleLabel.textContent = 'English';
                     elementsToTranslate.forEach(el => {
                     el.textContent = el.getAttribute('data-en');
@@ -136,7 +136,8 @@
     <div class="icons">
         <a href="" class="fas fa-heart"></a>
         <a href="" class="fas fa-shopping-cart"></a>
-        <a href="" class="fas fa-user"></a>
+        {#if !data?.user}<a href="/login" class="fas fa-user"></a>{/if}
+        {#if data?.user}<a href="/user" class="fas fa-user"></a>{/if}
     </div>
 
 </header>
@@ -623,13 +624,14 @@
             <a href="#review">review</a>
         </div>
 
-        <div class="box">
-            <h3>extra links</h3>
-            <a href="#">my account</a>
-            <a href="#">my order</a>
-            <a href="#">my favorite</a>
-        </div>
-
+        {#if (data?.user !== undefined)}
+            <div class="box">
+                <h3>extra links</h3>
+                <a href="#">my account</a>
+                <a href="#">my order</a>
+                <a href="#">my favorite</a>
+            </div>
+        {/if}
         <div class="box">
             <h3>follow us</h3>
             <a href="#">facebook</a>

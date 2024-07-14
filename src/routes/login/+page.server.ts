@@ -1,66 +1,15 @@
 export const prerender = false;
 
-import { fail, json } from '@sveltejs/kit';
-import type { Actions } from '../$types';
-import { createHash } from 'crypto';
-import mysql, { type RowDataPacket } from 'mysql2/promise';
+import { fail, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from '../$types';
+import { v7 } from 'uuid';
+import * as Database from '$lib/server/Database';
 
-
-async function openConn(): Promise<mysql.Connection>{
-    return await mysql.createConnection({
-        host: 'fr9.h.filess.io',
-        port: 3305,
-        user: 'ReidShoes_freedompen',
-        password: '5445e0df8c0838128111b3146cd71f8b025fe29d',
-        database: 'ReidShoes_freedompen',
-      });
-}
-
-async function illGetSomeCookiesForYou(getCookies: string) {
-    
-}
-
-async function illMakeSomeCookiesForYou() {
-    
-}
-
-async function Register(email: string, password: string, phone: string, full_name: string){
-    const conn = await openConn();
-    try {
-        let hashPass = createHash('sha256').update(password).digest('hex');
-        const [result, fields] = await conn.execute(
-            'INSERT INTO users VALUES (?, ?, ?, ?, ?)',
-            [Math.floor(Math.random()*999999) + 100000, email, hashPass, full_name, phone]
-        );
-        conn.end(0);
-        return [null, result];
-    } catch (error) {
-        conn.end(0);
-        return [(error as Error).message, null];
-    }
-}
-
-async function Login(email: string, password: string){
-    const conn = await openConn();
-    try {
-        let hashPass = createHash('sha256').update(password).digest('hex');
-        const [rows, fields] = await conn.execute(
-            'SELECT password FROM users WHERE email = ?',
-            [email]
-        );
-        let getPassword: string = (rows as RowDataPacket)[0]?.password ?? "";
-        if(hashPass == getPassword){
-            conn.end(0);
-            return [null, true];
-        }else{
-            conn.end(0);
-            return [null, false];
-        }
-    } catch (error) {
-        conn.end(0);
-        return [(error as Error).message, false];
-    }
-}
+export const load: PageServerLoad = async ({ cookies }) => {
+	const user = await Database.illGetSomeCookiesForYou(cookies.get('sessionid') ?? "");
+    if(user.includes("Error")) return null;
+    if(!user.includes("Error")) return redirect(307, "/");
+};
 
 export const actions: Actions = {
     login: async ({ cookies, request }) => {
@@ -73,10 +22,11 @@ export const actions: Actions = {
 			return fail(400, { email, missing: true });
 		}
 
-        const [error, dbData] = await Login(email.toString(), password.toString());
+        const [error, dbData] = await Database.Login(email.toString(), password.toString());
         
         if(null === error && dbData == true){
             console.log("Login Success");
+            cookies.set('sessionid', await Database.illMakeSomeCookiesForYou(v7(), email.toString()), {path: "/"});
             return { success: true };
         }else{
             console.log("Login Failed");
@@ -96,7 +46,7 @@ export const actions: Actions = {
 			return fail(400, { email, missing: true });
 		}
 
-        const [error, dbData] = await Register(email.toString(), password.toString(), phone.toString(), full_name.toString());
+        const [error, dbData] = await Database.Register(email.toString(), password.toString(), phone.toString(), full_name.toString());
         if(null === error){
             return { successRegis: true };
         }else{
@@ -106,3 +56,4 @@ export const actions: Actions = {
         }
     }
 } satisfies Actions;
+
