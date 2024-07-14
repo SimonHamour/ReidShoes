@@ -3,6 +3,7 @@
 <script>
 // @ts-nocheck
     import { onMount } from 'svelte';
+    import { base } from '$app/paths';
     let isChecked = false;
     let menuClick;
     let next;
