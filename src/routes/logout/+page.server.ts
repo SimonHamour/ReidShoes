@@ -3,5 +3,5 @@ import type { PageServerLoad } from "../$types";
 
 export const load: PageServerLoad = async ({ cookies }) => {
     cookies.delete('sessionid', { path: '/' });
-    redirect(307, "/");
+    redirect(301, "/");
 };

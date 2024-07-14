@@ -1,4 +1,4 @@
-export const prerender = true;
+export const prerender = false;
 import type { PageServerLoad } from './$types'
 import { illGetSomeCookiesForYou } from "$lib/server/Database";
 import { redirect } from '@sveltejs/kit';
@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
     if(user.includes("Error")) return null;
     if(!user.includes("Error")){
         if(user[4] == "admin")
-            redirect(307, "/admin");
+            redirect(301, "/admin");
         return { user };
     };
 };
