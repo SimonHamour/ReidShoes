@@ -122,21 +122,135 @@ showContent = (contentId) => {
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Produk</h1>
                 </div>
-                <p>Daftar produk akan ditampilkan di sini.</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Produk</th>
+                            <th scope="col">Nama Produk</th>
+                            <th scope="col">Stok Produk</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-list">
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Sepatu A</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Sepatu B</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Sepatu C</td>
+                            <td>20</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div id="content-pesanan" class="content" style="display: none;">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Pesanan</h1>
                 </div>
-                <p>Daftar pesanan akan ditampilkan di sini.</p>
+                <div class="btn-group mb-3" role="group" aria-label="Status Pesanan">
+                    <button type="button" class="btn btn-primary">Di Proses</button>
+                    <button type="button" class="btn btn-secondary">Dikirim</button>
+                    <button type="button" class="btn btn-success">Selesai</button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nama Pelanggan</th>
+                            <th scope="col">Produk</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Ubah Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="order-list">
+                        <tr class="order-item" data-status="proses">
+                            <th scope="row">1</th>
+                            <td>Jane Doe</td>
+                            <td>Sepatu A</td>
+                            <td class="status-text">Di Proses</td>
+                            <td>
+                                <select class="form-control">
+                                    <option value="proses" selected>Di Proses</option>
+                                    <option value="dikirim">Dikirim</option>
+                                    <option value="selesai">Selesai</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="order-item" data-status="dikirim">
+                            <th scope="row">2</th>
+                            <td>John Smith</td>
+                            <td>Sepatu B</td>
+                            <td class="status-text">Dikirim</td>
+                            <td>
+                                <select class="form-control">
+                                    <option value="proses">Di Proses</option>
+                                    <option value="dikirim" selected>Dikirim</option>
+                                    <option value="selesai">Selesai</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="order-item" data-status="selesai">
+                            <th scope="row">3</th>
+                            <td>Alice Brown</td>
+                            <td>Sepatu C</td>
+                            <td class="status-text">Selesai</td>
+                            <td>
+                                <select class="form-control">
+                                    <option value="proses">Di Proses</option>
+                                    <option value="dikirim">Dikirim</option>
+                                    <option value="selesai" selected>Selesai</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div id="content-pelanggan" class="content" style="display: none;">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Pelanggan</h1>
                 </div>
-                <p>Daftar pelanggan akan ditampilkan di sini.</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Pelanggan</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">No Telepon</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Password</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-list">
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Jane Doe</td>
+                            <td>081234567890</td>
+                            <td>jane@example.com</td>
+                            <td>******</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>John Smith</td>
+                            <td>082345678901</td>
+                            <td>john@example.com</td>
+                            <td>******</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Alice Brown</td>
+                            <td>083456789012</td>
+                            <td>alice@example.com</td>
+                            <td>******</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </main>
     </div>

@@ -65,6 +65,7 @@
                                 <i class="input-icon uil uil-lock"></i>
                             </div>
                             {#if form?.successRegis}<p class="error">Register Done</p>{/if}
+                            {#if form?.error}<p class="error">{form?.error}</p>{/if}
                             <button type="submit" class="btn mt-4">Register</button>
                         </div>
                     </div>

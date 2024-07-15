@@ -6,7 +6,7 @@ export async function Register(email: string, password: string, phone: string, f
     try {
         let hashPass = createHash('sha256').update(password).digest('hex');
         const [result, fields] = await conn.execute(
-            'INSERT INTO users VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO users VALUES (?, ?, ?, ?, ?, \'\', \'user\')',
             [Math.floor(Math.random()*999999) + 100000, email, hashPass, full_name, phone]
         );
         conn.end(0);
@@ -163,15 +163,15 @@ export async function illMakeSomeCookiesForYou(uuid: string, email: string) {
             [uuid, email]
         );
         conn.end(0);
-        return whereIsTheCookies(email);
+        return whereIsTheCookies(email, conn);
     } catch (error) {
         conn.end(0);
         return (error as Error).message;
     }
 }
 
-export async function whereIsTheCookies(email: string) {
-    const conn = await openConn();
+export async function whereIsTheCookies(email: string, conn: mysql.Connection | undefined) {
+    if(undefined === conn) conn = await openConn();
     try {
         const [rows, fields] = await conn.execute(
             'SELECT sessionid FROM userSession WHERE email = ?',
