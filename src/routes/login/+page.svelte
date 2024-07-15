@@ -38,6 +38,7 @@
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
 	                    {#if form?.incorrect}<p class="error">Email atau Password Salah!</p>{/if}
+                      {#if data?.errorCokkies}<p class="error">{data?.errorCookies}</p>{/if}
                       <button type="submit" class="btn mt-4">Login</button>
                       <p class="mb-0 mt-4 text-center"><a href="" class="link">Forgot your password?</a></p>
                     </div>

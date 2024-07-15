@@ -92,6 +92,15 @@ export async function Update(id_user: string, current_password: string, address:
     }
 }
 
+export async function getAllUser(){
+    const conn = await openConn();
+    try{
+        
+    }catch(err){
+
+    }
+}
+
 async function openConn(): Promise<mysql.Connection>{
     return await mysql.createConnection({
         host: 'fr9.h.filess.io',
@@ -162,7 +171,6 @@ export async function illMakeSomeCookiesForYou(uuid: string, email: string) {
             'INSERT INTO userSession VALUES (?, ?, CURDATE())',
             [uuid, email]
         );
-        conn.end(0);
         return whereIsTheCookies(email, conn);
     } catch (error) {
         conn.end(0);
