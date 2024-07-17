@@ -415,7 +415,7 @@
 
             <div id="content-pesanan" class="content" style="display: none;">
                 <div class=" flex flex-col justify-between items-center w-full h-full">
-                    <div class="relative overflow-auto w-full shadow-md sm:rounded-lg gap-3 flex flex-col sm:flex-row w-full bg-white h-full justify-center items-center">
+                    <div class="relative overflow-auto w-full shadow-md sm:rounded-lg gap-3 flex flex-col sm:flex-row bg-white h-full justify-center items-center">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs overflow-auto w-full text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr class="text-left">
