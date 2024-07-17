@@ -13,31 +13,31 @@ export const load = async ({ url, fetch, cookies }: Parameters<PageServerLoad>[0
     const current_page = String(url.searchParams.get('current') ?? "dashboard");
     async function allUsers(limit: number = 10, skip: number = 0) {
         if((limit-skip) != 10) throw error(400, 'Bad Request');
-        const res = await getAllUser(LIMIT, SKIP);
+        const res = await getAllUser(limit, skip);
         return res;
     }
     async function allProduk(limit: number = 10, skip: number = 0) {
         if((limit-skip) != 10) throw error(400, 'Bad Request');
-        const res = await getAllProduk(LIMIT, SKIP);
+        const res = await getAllProduk(limit, skip);
         return res;
     }
     async function allTransaction(limit: number = 10, skip: number = 0) {
         if((limit-skip) != 10) throw error(400, 'Bad Request');
-        const res = await getAllTransaction(LIMIT, SKIP);
+        const res = await getAllTransaction(limit, skip);
         return res;
     }
     let users: Array<Array<string>> | string = "";
     let produk: Array<Array<string>> | string = "";
     let pesanan: Array<Array<string>> | string = "";
-    if(current_page === "pelanggan"){
+    if(current_page == "pelanggan"){
         users = await allUsers(LIMIT, SKIP);
         produk = await allProduk();
         pesanan = await allTransaction();
-    }else if(current_page === "produk"){
+    }else if(current_page == "produk"){
         users = await allUsers();
         produk = await allProduk(LIMIT, SKIP);
         pesanan = await allTransaction();
-    }else if(current_page === "pesanan"){
+    }else if(current_page == "pesanan"){
         users = await allUsers();
         pesanan = await allTransaction(LIMIT, SKIP);
         produk = await allProduk();
@@ -49,6 +49,10 @@ export const load = async ({ url, fetch, cookies }: Parameters<PageServerLoad>[0
     const userHead = getHeadAllUsers();
     const produkHead = getHeadAllProduk();
     const pesananHead = getHeadAllTransaction();
+
+    console.log(users);
+    console.log(pesanan);
+    console.log(produk);
 
     const totalItem: number[] = await getTotalItems();
     if(typeof users === 'string'){
