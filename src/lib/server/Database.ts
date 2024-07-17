@@ -317,13 +317,14 @@ export async function illGetSomeCookiesForYou(getCookies: string) {
 export async function illMakeSomeCookiesForYou(uuid: string, email: string) {
     const conn = await openConn();
     try {
-        if(await whereIsTheCookies(email, undefined) == "Error"){
-            const [result, fields] = await conn.execute(
-                'INSERT INTO userSession VALUES (?, ?, CURDATE())',
-                [uuid, email]
-            );
-        }
-        return whereIsTheCookies(email, conn);
+        const getTempSession = await whereIsTheCookies(email, undefined);
+        if(getTempSession != "Error")
+            return getTempSession;
+        await conn.execute(
+            'INSERT INTO userSession VALUES (?, ?, CURDATE())',
+            [uuid, email]
+        );
+        return uuid;
     } catch (error) {
         conn.end(0);
         return (error as Error).message;
@@ -337,9 +338,9 @@ export async function whereIsTheCookies(email: string, conn: mysql.Connection | 
             'SELECT sessionid FROM userSession WHERE email = ?',
             [email]
         );
-        let SessionId: string = (rows as RowDataPacket)[0]?.sessionid ?? null;
+        let SessionId: string = (rows as RowDataPacket)[0]?.sessionid ?? "Error";
         conn.end(0);
-        console.log("DATABASE ln 218: " + SessionId);
+        console.log("342"+SessionId);
         return SessionId;
     } catch (error) {
         conn.end(0);
