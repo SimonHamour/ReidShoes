@@ -6,7 +6,7 @@ export async function Register(email: string, password: string, phone: string, f
     try {
         let hashPass = createHash('sha256').update(password).digest('hex');
         const [result, fields] = await conn.execute(
-            'INSERT INTO users VALUES (?, ?, ?, ?, ?, \'\', \'user\')',
+            'INSERT INTO users VALUES (?, ?, ?, ?, ?, \'\', \'user\', CURTIME())',
             [Math.floor(Math.random()*999999) + 100000, email, hashPass, full_name, phone]
         );
         conn.end(0);
@@ -27,6 +27,10 @@ export async function Login(email: string, password: string){
         );
         let getPassword: string = (rows as RowDataPacket)[0]?.password ?? "";
         if(hashPass == getPassword){
+            await conn.execute(
+                'UPDATE userSession SET session_time = current_date() WHERE email = ?'
+                ,[email]
+            );
             conn.end(0);
             return [null, true];
         }else{
@@ -92,13 +96,153 @@ export async function Update(id_user: string, current_password: string, address:
     }
 }
 
-export async function getAllUser(){
+export async function UpdateProduk(id_produk:string, stok: number) {
+    const conn = await openConn();
+    try {
+        const [result, fields] = await conn.execute(
+            'UPDATE produk SET STOK = ? WHERE id_produk = ?',
+            [stok, id_produk]
+        );
+        conn.end(0);
+        return "Success";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message;
+    }
+}
+
+export async function UpdateStatusTransaksi(id_transaksi:string, status: string) {
+    const conn = await openConn();
+    try {
+        const [result, fields] = await conn.execute(
+            'UPDATE transaksi SET status = ? WHERE id = ?',
+            [status, id_transaksi]
+        );
+        conn.end(0);
+        return "Success";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message;
+    }
+}
+
+export async function getAllUser(LIMIT: number, SKIPTO: number | undefined){
     const conn = await openConn();
     try{
-        
+        if(undefined === SKIPTO)
+            SKIPTO = 0;
+        const [rows, fields] = await conn.execute(
+            'SELECT ID_User, email, name, phone, role, address, IF(TIMEDIFF(NOW(), last_seen) > (CAST(\'00:00:00\' AS TIME) + INTERVAL 30 MINUTE), "True", "False") AS TIMEDIFF FROM users LIMIT ?, ?',
+            [SKIPTO, LIMIT]
+        );
+        let userInfo: Array<Array<string>> = [];
+        for (let index = 0; index < (rows as RowDataPacket).length; index++) {
+            let userInfo2: Array<string> = [];
+            userInfo2.push((rows as RowDataPacket)[index]?.ID_User ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.email ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.name ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.phone ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.role ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.address ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.TIMEDIFF ?? "");
+            userInfo.push(userInfo2);
+        }
+        conn.end(0);
+        return userInfo;
     }catch(err){
-
+        conn.end(0);
+        return (err as Error).message;
     }
+}
+
+export async function getAllProduk(LIMIT: number, SKIPTO: number | undefined){
+    const conn = await openConn();
+    try{
+        if(undefined === SKIPTO)
+            SKIPTO = 0;
+        const [rows, fields] = await conn.execute(
+            'SELECT * FROM produk LIMIT ?, ?',
+            [SKIPTO, LIMIT]
+        );
+        let userInfo: Array<Array<string>> = [];
+        for (let index = 0; index < (rows as RowDataPacket).length; index++) {
+            let userInfo2: Array<string> = [];
+            userInfo2.push((rows as RowDataPacket)[index]?.id_produk ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.MERK ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.HARGA ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.STOK ?? "");
+            userInfo.push(userInfo2);
+        }
+        conn.end(0);
+        return userInfo;
+    }catch(err){
+        conn.end(0);
+        return (err as Error).message;
+    }
+}
+
+export async function getAllTransaction(LIMIT: number, SKIPTO: number | undefined){
+    const conn = await openConn();
+    try{
+        if(undefined === SKIPTO)
+            SKIPTO = 0;
+        const [rows, fields] = await conn.execute(
+            'SELECT * FROM transaksi LIMIT ?, ?',
+            [SKIPTO, LIMIT]
+        );
+        let userInfo: Array<Array<string>> = [];
+        for (let index = 0; index < (rows as RowDataPacket).length; index++) {
+            let userInfo2: Array<string> = [];
+            userInfo2.push((rows as RowDataPacket)[index]?.id ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.name ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.produk ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.kuantitas ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.harga ?? "");
+            userInfo2.push(String((rows as RowDataPacket)[index]?.tanggal).substring(0,15) ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.status ?? "");
+            userInfo.push(userInfo2);
+        }
+        conn.end(0);
+        return userInfo;
+    }catch(err){
+        conn.end(0);
+        return (err as Error).message;
+    }
+}
+
+export function getHeadAllUsers() {
+    const userHead: Array<string> = [];
+    userHead.push("ID_User");
+    userHead.push("Email");
+    userHead.push("Name");
+    userHead.push("Phone Number");
+    userHead.push("Role");
+    userHead.push("Address");
+    userHead.push("Status Online/Offline");
+    return userHead;
+}
+
+export function getHeadAllProduk() {
+    const userHead: Array<string> = [];
+    userHead.push("id_produk");
+    userHead.push("MERK");
+    userHead.push("HARGA");
+    userHead.push("STOK");
+    userHead.push("UPDATE STOK");
+    return userHead;
+}
+
+export function getHeadAllTransaction(){
+    const userHead: Array<string> = [];
+    userHead.push("ID Transaksi");
+    userHead.push("Nama Pembeli");
+    userHead.push("Produk-nya");
+    userHead.push("Berapa banyak");
+    userHead.push("Total harga");
+    userHead.push("Tanggal Transaksi");
+    userHead.push("Status");
+    userHead.push("Ganti Status");
+    return userHead;
 }
 
 async function openConn(): Promise<mysql.Connection>{
@@ -129,11 +273,15 @@ export async function illGetSomeCookiesForYou(getCookies: string) {
         if(null === email){
             conn.end(0);
             arrayOfError.push("Error");
-            arrayOfError.push("Session not found");
+            arrayOfError.push("USER Session not found");
             return arrayOfError;
         }
+        await conn.execute(
+            'UPDATE users SET last_seen = CURTIME() WHERE email = ?',
+            [email]
+        );
         const [row, field] = await conn.execute(
-            'SELECT ID_User, name, phone, role, address FROM users WHERE email = ?',
+            'SELECT ID_User, name, phone, role, address, IF(TIMEDIFF(NOW(), last_seen) > (CAST(\'00:00:00\' AS TIME) + INTERVAL 30 MINUTE), "True", "False") AS TIMEDIFF FROM users WHERE email = ?',
             [email]
         );
         let ID_User: string = (row as RowDataPacket)[0]?.ID_User ?? null;
@@ -141,6 +289,7 @@ export async function illGetSomeCookiesForYou(getCookies: string) {
         let phone: string = (row as RowDataPacket)[0]?.phone ?? null;
         let role: string = (row as RowDataPacket)[0]?.role ?? null;
         let address: string = (row as RowDataPacket)[0]?.address ?? null;
+        let stillAlive: string = (row as RowDataPacket)[0]?.TIMEDIFF ?? null;
         if(null === ID_User){
             conn.end(0);
             arrayOfError.push("Error");
@@ -155,6 +304,7 @@ export async function illGetSomeCookiesForYou(getCookies: string) {
         userInfo.push(phone);
         userInfo.push(role);
         userInfo.push(address);
+        userInfo.push(stillAlive);
         return userInfo;
     } catch (error) {
         conn.end(0);
@@ -167,10 +317,12 @@ export async function illGetSomeCookiesForYou(getCookies: string) {
 export async function illMakeSomeCookiesForYou(uuid: string, email: string) {
     const conn = await openConn();
     try {
-        const [result, fields] = await conn.execute(
-            'INSERT INTO userSession VALUES (?, ?, CURDATE())',
-            [uuid, email]
-        );
+        if(await whereIsTheCookies(email, undefined) == "Error"){
+            const [result, fields] = await conn.execute(
+                'INSERT INTO userSession VALUES (?, ?, CURDATE())',
+                [uuid, email]
+            );
+        }
         return whereIsTheCookies(email, conn);
     } catch (error) {
         conn.end(0);
@@ -187,10 +339,11 @@ export async function whereIsTheCookies(email: string, conn: mysql.Connection | 
         );
         let SessionId: string = (rows as RowDataPacket)[0]?.sessionid ?? null;
         conn.end(0);
+        console.log("DATABASE ln 218: " + SessionId);
         return SessionId;
     } catch (error) {
         conn.end(0);
-        return (error as Error).message;
+        return "Error";
     }
 }
 

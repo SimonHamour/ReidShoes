@@ -7,7 +7,7 @@ import * as Database from '$lib/server/Database';
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const user = await Database.illGetSomeCookiesForYou(cookies.get('sessionid') ?? "");
-    console.log(cookies.get('sessionid'));
+    console.log(user);
     if(user.includes("Error")) return {errorCookies: user};
     if(!user.includes("Error")) return redirect(301, "/");
 };
