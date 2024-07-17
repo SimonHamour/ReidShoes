@@ -88,7 +88,8 @@
 <header>
     <div style="padding: 20px; text-align: center;">
         <label class="switch">
-          <input type="checkbox" checked={isChecked} on:change={() => {
+          <input type="checkbox" on:change={() => {
+            isChecked = !isChecked;
             const toggleLabel = document.getElementById('toggleLabel');
             const elementsToTranslate = document.querySelectorAll('[data-en]');
         
@@ -96,12 +97,16 @@
                 if (isChecked) {
                     toggleLabel.textContent = 'Indonesian';
                     elementsToTranslate.forEach(el => {
-                    el.textContent = el.getAttribute('data-id');
+                        console.log("Indonesia");
+                        console.log(el);
+                        el.textContent = el.getAttribute('data-id');
                     });
                 } else {
                     toggleLabel.textContent = 'English';
                     elementsToTranslate.forEach(el => {
-                    el.textContent = el.getAttribute('data-en');
+                        console.log("English");
+                        console.log(el);
+                        el.textContent = el.getAttribute('data-en');
                     });
                 }
             }
