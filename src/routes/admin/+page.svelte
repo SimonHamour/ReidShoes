@@ -24,7 +24,7 @@
                                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                                     <!-- svelte-ignore a11y-no-static-element-interactions -->
                                     <li class="flex w-full justify-between text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent('dashboard')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <a type="button" on:click={showContent('dashboard')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grid" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <rect x="4" y="4" width="6" height="6" rx="1"></rect>
@@ -36,7 +36,7 @@
                                         </a>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent('produk')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <a type="button" on:click={showContent('produk')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-puzzle" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
@@ -45,7 +45,7 @@
                                         </a>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent('pesanan')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <a type="button" on:click={showContent('pesanan')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-compass" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <polyline points="8 16 10 10 16 8 14 14 8 16"></polyline>
@@ -55,7 +55,7 @@
                                         </a>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent('pelanggan')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <a type="button" on:click={showContent('pelanggan')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-puzzle" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
@@ -86,13 +86,13 @@
                                         </button>
                                     </li>
                                     <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <button aria-label="open settings" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
+                                        <a type="button" href="/user" aria-label="open settings" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
                                             <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                                 <circle cx="12" cy="12" r="3"></circle>
                                             </svg>
-                                        </button>
+                                        </a>
                                     </li>
                                     <li class="cursor-pointer text-white pt-5 pb-3">
                                         <button aria-label="open logs" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
@@ -276,7 +276,6 @@
                     </div>
                 </div>
             </div>
-        <!-- TODO: MAKE THE CUSTOMER PAGE PRETTIER -->
             <div id="content-pelanggan" class="content" style="display: none;">
                 <div class=" flex flex-col justify-between items-center w-full h-full">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg gap-3 flex flex-col sm:flex-row w-full bg-white h-full justify-center items-center">
@@ -304,18 +303,20 @@
                         </table>
                     </div>
                     <div class="flex items-center gap-4 w-full rounded-xl mt-3 justify-center  bg-white">
-                        <a href="/admin?limit={pageSize}&skip={pageSize * (current_page-1 == 0 ? 1 : current_page-1)}"
-                          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          type="button">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                            aria-hidden="true" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
-                          </svg>
-                          Previous
-                        </a>
+                        {#if current_page > 0}
+                            <a href="/admin?limit={pageSize*(current_page==0 ? 1 : current_page)}&skip={pageSize * (current_page == 0 ? 0 : current_page-1)}&current={page_now}"
+                                class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                aria-hidden="true" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+                                </svg>
+                                Previous
+                            </a>
+                        {/if}
                         <div class="flex items-center gap-2">
                             {#each Array(totalPages) as _, idx}
-                            <a href="/admin?limit={pageSize}&skip={pageSize * idx}&current={page_now}"
+                            <a href="/admin?limit={pageSize*(current_page+1)}&skip={pageSize * idx}&current={page_now}"
                             class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg {current_page === idx ? 'bg-gray-900' : 'bg-slate-600'} text-center align-middle font-sans text-xs font-medium uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button">
                                 <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
@@ -324,15 +325,15 @@
                             </a>
                             {/each}
                         </div>
-                        <a href="/admin?limit={pageSize}&skip={pageSize * (current_page+1 > totalPages ? totalPages : current_page+1)}"
-                          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          type="button">
-                          Next
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                            aria-hidden="true" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
-                          </svg>
-                        </a>
+                        <a style="{(current_page == 0 ? 2 : current_page+2) > totalPages ? 'pointer-events: none;' : ''}" href="/admin?limit={pageSize*(current_page==0 ? 2 : current_page+2)}&skip={pageSize * (current_page+1 > totalPages ? totalPages : current_page+1)}&current={page_now}"
+                            class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            type="button">
+                            Next
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                              aria-hidden="true" class="w-4 h-4">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+                            </svg>
+                          </a>
                     </div>
                 </div>
             </div>
@@ -377,18 +378,20 @@
                     </div>
                     
                     <div class="flex items-center gap-4 w-full rounded-xl mt-3 justify-center  bg-white">
-                        <a href="/admin?limit={pageSize}&skip={pageSize * (current_pageProduct-1 == 0 ? 1 : current_pageProduct-1)}"
-                          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          type="button">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                            aria-hidden="true" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
-                          </svg>
-                          Previous
-                        </a>
+                        {#if current_pageProduct > 0}
+                            <a href="/admin?limit={pageSize*(current_pageProduct==0 ? 1 : current_pageProduct)}&skip={pageSize * (current_pageProduct == 0 ? 0 : current_pageProduct-1)}&current={page_now}"
+                                class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                aria-hidden="true" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+                                </svg>
+                                Previous
+                            </a>
+                        {/if}
                         <div class="flex items-center gap-2">
                             {#each Array(totalPagesProduct) as _, idx}
-                            <a href="/admin?limit={pageSize}&skip={pageSize * idx}&current={page_now}"
+                            <a href="/admin?limit={pageSize*(current_pageProduct+1)}&skip={pageSize * idx}&current={page_now}"
                             class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg {current_pageProduct === idx ? 'bg-gray-900' : 'bg-slate-600'} text-center align-middle font-sans text-xs font-medium uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button">
                                 <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
@@ -397,21 +400,19 @@
                             </a>
                             {/each}
                         </div>
-                        <a href="/admin?limit={pageSize}&skip={pageSize * (current_pageProduct+1 > totalPagesProduct ? totalPagesProduct : current_pageProduct+1)}"
-                          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          type="button">
-                          Next
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                            aria-hidden="true" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
-                          </svg>
-                        </a>
+                        <a style="{(current_pageProduct == 0 ? 2 : current_pageProduct+2) > totalPagesProduct ? 'pointer-events: none;' : ''}" href="/admin?limit={pageSize*(current_page==0 ? 2 : current_page+2)}&skip={pageSize * (current_pageProduct+1 > totalPagesProduct ? totalPagesProduct : current_pageProduct+1)}&current={page_now}"
+                            class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            type="button">
+                            Next
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                              aria-hidden="true" class="w-4 h-4">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+                            </svg>
+                          </a>
                     </div>
                 </div>
             </div> 
 
-            <!-- TODO: MASIH BLM BISA UPDATE STATUS PEMESANAN
-            TODO: MEMPECANTIK TABLE-NYA -->
             <div id="content-pesanan" class="content" style="display: none;">
                 <div class=" flex flex-col justify-between items-center w-full h-full">
                     <div class="relative overflow-auto w-full shadow-md sm:rounded-lg gap-3 flex flex-col sm:flex-row w-full bg-white h-full justify-center items-center">
@@ -452,8 +453,8 @@
                     </div>
                     
                     <div class="flex items-center gap-4 w-full rounded-xl mt-3 justify-center  bg-white">
-                        {#if current_pagePesanan-1 > 0}
-                            <a href="/admin?limit={pageSize}&skip={pageSize * (current_pagePesanan-1 == 0 ? 1 : current_pagePesanan-1)}"
+                        {#if current_pagePesanan > 0}
+                            <a href="/admin?limit={pageSize*(current_pagePesanan==0 ? 1 : current_pagePesanan)}&skip={pageSize * (current_pagePesanan == 0 ? 0 : current_pagePesanan-1)}&current={page_now}"
                                 class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -465,7 +466,7 @@
                         {/if}
                         <div class="flex items-center gap-2">
                             {#each Array(totalPagesPesanan) as _, idx}
-                            <a href="/admin?limit={pageSize}&skip={pageSize * idx}&current={page_now}"
+                            <a href="/admin?limit={pageSize*(current_pagePesanan+1)}&skip={pageSize * idx}&current={page_now}"
                             class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg {current_pagePesanan === idx ? 'bg-gray-900' : 'bg-slate-600'} text-center align-middle font-sans text-xs font-medium uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button">
                                 <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
@@ -474,7 +475,7 @@
                             </a>
                             {/each}
                         </div>
-                        <a style="{(current_page == 0 ? 1 : current_page)+1 > totalPagesPesanan ? 'pointer-events: none;' : ''}" href="/admin?limit={pageSize}&skip={pageSize * (current_pagePesanan+1 > totalPagesPesanan ? totalPagesPesanan : current_pagePesanan+1)}"
+                        <a style="{(current_pagePesanan == 0 ? 2 : current_pagePesanan+2) > totalPagesPesanan ? 'pointer-events: none !important;' : ''}" href="/admin?limit={pageSize*(current_page==0 ? 2 : current_page+2)}&skip={pageSize * (current_pagePesanan+1 > totalPagesPesanan ? totalPagesPesanan : current_pagePesanan+1)}&current={page_now}"
                             class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button">
                             Next
@@ -620,16 +621,15 @@ onMount(() => {
 });
 
 let pageSize = 10;
-$: totalItems = (data?.users ?? []).length ?? 0;
-$: totalPages = Math.ceil(totalItems / pageSize);
-$: current_page = (Number($page.url.searchParams.get('skip')) || 0) / pageSize;
+const totalItems: number[] = data?.totalItem ? data?.totalItem : [0,0,0];
 
-$: totalItemsProduct = (data?.products ?? []).length ?? 0;
-$: totalPagesProduct = Math.ceil(totalItemsProduct / pageSize);
-$: current_pageProduct = (Number($page.url.searchParams.get('skip')) || 0) / pageSize;
+$: totalPages = Math.ceil(totalItems[0] / pageSize);
+$: current_page = (Number($page.url.searchParams.get('skip') ?? 0)) / pageSize;
 
-$: totalItemsPesanan = (data?.pesanan ?? []).length ?? 0;
-$: totalPagesPesanan = Math.ceil(totalItemsPesanan / pageSize);
-$: current_pagePesanan = (Number($page.url.searchParams.get('skip')) || 0) / pageSize;
+$: totalPagesProduct = Math.ceil(totalItems[1] / pageSize);
+$: current_pageProduct = (Number($page.url.searchParams.get('skip') ?? 0)) / pageSize;
+
+$: totalPagesPesanan = Math.ceil(totalItems[2] / pageSize);
+$: current_pagePesanan = (Number($page.url.searchParams.get('skip') ?? 0)) / pageSize;
 
 </script>

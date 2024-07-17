@@ -1,6 +1,6 @@
 export const prerender = false;
 import type { Actions, PageServerLoad } from './$types'
-import { getAllUser, getHeadAllUsers, getAllProduk, getHeadAllProduk, illGetSomeCookiesForYou, UpdateProduk, getAllTransaction, getHeadAllTransaction, UpdateStatusTransaksi } from "$lib/server/Database";
+import { getAllUser, getHeadAllUsers, getAllProduk, getHeadAllProduk, illGetSomeCookiesForYou, UpdateProduk, getAllTransaction, getHeadAllTransaction, UpdateStatusTransaksi, getTotalItems} from "$lib/server/Database";
 import { error, redirect, fail} from '@sveltejs/kit';
 
 //Check if 30 they are not active
@@ -49,6 +49,8 @@ export const load = async ({ url, fetch, cookies }: Parameters<PageServerLoad>[0
     const userHead = getHeadAllUsers();
     const produkHead = getHeadAllProduk();
     const pesananHead = getHeadAllTransaction();
+
+    const totalItem: number[] = await getTotalItems();
     if(typeof users === 'string'){
         console.log(users);
         throw error(400, 'Bad Request: users');
@@ -70,7 +72,7 @@ export const load = async ({ url, fetch, cookies }: Parameters<PageServerLoad>[0
     if(!Current_User.includes("Error")){
         if(Current_User[4] == "user")
             redirect(301, "/");
-        return { Current_User, users: users, products: produk, pesanan: pesanan, current: current_page, userHead: userHead, productHead: produkHead, pesananHead: pesananHead};
+        return {totalItem: totalItem, Current_User, users: users, products: produk, pesanan: pesanan, current: current_page, userHead: userHead, productHead: produkHead, pesananHead: pesananHead};
     };
 };
 

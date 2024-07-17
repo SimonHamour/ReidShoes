@@ -210,6 +210,26 @@ export async function getAllTransaction(LIMIT: number, SKIPTO: number | undefine
     }
 }
 
+export async function getTotalItems() {
+    const conn = await openConn();
+    try {
+        const [row, field] = await conn.execute(
+            'SELECT * FROM (SELECT COUNT(*) AS A FROM users) AS A, (SELECT COUNT(*) AS B FROM produk) AS B, (SELECT COUNT(*) AS C FROM transaksi) AS C;'
+        );
+        const totalItem: number[] = [];
+        totalItem.push(Number((row as RowDataPacket)[0].A));
+        totalItem.push(Number((row as RowDataPacket)[0].B));
+        totalItem.push(Number((row as RowDataPacket)[0].C));
+        conn.end(0);
+        console.log(totalItem);
+        return totalItem;
+    } catch (error) {
+        conn.end(0);
+        console.log("getTotalItemsUser: " + (error as Error).message);
+        return [0,0,0];
+    }
+}
+
 export function getHeadAllUsers() {
     const userHead: Array<string> = [];
     userHead.push("ID_User");
