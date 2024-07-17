@@ -5,7 +5,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="admin.css">
 </svelte:head>
-
+<ProdukModal bind:produk_info>
+    
+</ProdukModal>
 <div class="w-screen h-screen overflow-auto flex flex-row relative gap-1">
     
         <nav class="fixed sm:relative z-10 flex flex-col h-screen overflow-hidden items-center justify-center min-w-[240px] font-sans text-base font-normal text-gray-700">
@@ -24,7 +26,7 @@
                                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                                     <!-- svelte-ignore a11y-no-static-element-interactions -->
                                     <li class="flex w-full justify-between text-gray-300 cursor-pointer items-center mb-6">
-                                        <a type="button" on:click={showContent('dashboard')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('dashboard')} class="flex items-center {page_now == "dashboard" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grid" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <rect x="4" y="4" width="6" height="6" rx="1"></rect>
@@ -33,75 +35,55 @@
                                                 <rect x="14" y="14" width="6" height="6" rx="1"></rect>
                                             </svg>
                                             <span class="text-sm ml-2">Dashboard</span>
-                                        </a>
+                                        </button>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a type="button" on:click={showContent('produk')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('produk')} class="flex items-center {page_now == "produk" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-puzzle" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
                                             </svg>
                                             <span class="text-sm ml-2">Products</span>
-                                        </a>
+                                        </button>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a type="button" on:click={showContent('pesanan')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('pesanan')} class="flex items-center {page_now == "pesanan" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-compass" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <polyline points="8 16 10 10 16 8 14 14 8 16"></polyline>
                                                 <circle cx="12" cy="12" r="9"></circle>
                                             </svg>
                                             <span class="text-sm ml-2">Pesanan</span>
-                                        </a>
+                                        </button>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a type="button" on:click={showContent('pelanggan')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('pelanggan')} class="flex items-center {page_now == "pelanggan" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-puzzle" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
                                             </svg>
                                             <span class="text-sm ml-2">Customer</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="px-8 border-t border-gray-700">
-                                <ul class="w-full flex items-center justify-between bg-gray-800">
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <button aria-label="show notifications" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
-                                            <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z"></path>
-                                                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path>
-                                                <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
-                                            </svg>
                                         </button>
                                     </li>
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <button aria-label="open chats" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
-                                            <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z"></path>
-                                                <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10"></path>
-                                                <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2"></path>
-                                            </svg>
-                                        </button>
-                                    </li>
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <a type="button" href="/user" aria-label="open settings" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
+                                    <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
+                                        <button class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                                 <circle cx="12" cy="12" r="3"></circle>
                                             </svg>
-                                        </a>
+                                            <a href="/user" class="text-sm ml-2">User Setting</a>
+                                        </button>
                                     </li>
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <button aria-label="open logs" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
+                                    <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
+                                        <button class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <rect x="3" y="4" width="18" height="4" rx="2"></rect>
                                                 <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10"></path>
                                                 <line x1="10" y1="12" x2="14" y2="12"></line>
                                             </svg>
+                                            <a href="/logout" class="text-sm ml-2">Logout</a>
                                         </button>
                                     </li>
                                 </ul>
@@ -137,8 +119,11 @@
                                 <!-- svelte-ignore a11y-no-static-element-interactions -->
                                 <!-- svelte-ignore a11y-missing-attribute -->
                                 <ul class="mt-12">
+                                    <!-- svelte-ignore a11y-missing-attribute -->
+                                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                                    <!-- svelte-ignore a11y-no-static-element-interactions -->
                                     <li class="flex w-full justify-between text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent("dashboard")} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('dashboard')} class="flex items-center {page_now == "dashboard" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grid" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <rect x="4" y="4" width="6" height="6" rx="1"></rect>
@@ -147,75 +132,55 @@
                                                 <rect x="14" y="14" width="6" height="6" rx="1"></rect>
                                             </svg>
                                             <span class="text-sm ml-2">Dashboard</span>
-                                        </a>
+                                        </button>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent('produk')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('produk')} class="flex items-center {page_now == "produk" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-puzzle" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
                                             </svg>
                                             <span class="text-sm ml-2">Products</span>
-                                        </a>
+                                        </button>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent('pesanan')} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('pesanan')} class="flex items-center {page_now == "pesanan" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-compass" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <polyline points="8 16 10 10 16 8 14 14 8 16"></polyline>
                                                 <circle cx="12" cy="12" r="9"></circle>
                                             </svg>
                                             <span class="text-sm ml-2">Pesanan</span>
-                                        </a>
+                                        </button>
                                     </li>
                                     <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
-                                        <a on:click={showContent("pelanggan")} class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
+                                        <button on:click={showContent('pelanggan')} class="flex items-center {page_now == "pelanggan" ? 'text-green-700' : ''} focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-puzzle" width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M4 7h3a1 1 0 0 0 1 -1v-1a2 2 0 0 1 4 0v1a1 1 0 0 0 1 1h3a1 1 0 0 1 1 1v3a1 1 0 0 0 1 1h1a2 2 0 0 1 0 4h-1a1 1 0 0 0 -1 1v3a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-1a2 2 0 0 0 -4 0v1a1 1 0 0 1 -1 1h-3a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h1a2 2 0 0 0 0 -4h-1a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1"></path>
                                             </svg>
                                             <span class="text-sm ml-2">Customer</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="px-8 border-t border-gray-700">
-                                <ul class="w-full flex items-center justify-between bg-gray-800">
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <button aria-label="show notifications" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
-                                            <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z"></path>
-                                                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path>
-                                                <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
-                                            </svg>
                                         </button>
                                     </li>
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                       <button aria-label="open chats" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
-                                           <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                               <path stroke="none" d="M0 0h24v24H0z"></path>
-                                               <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10"></path>
-                                               <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2"></path>
-                                           </svg>
-                                       </button>
-                                    </li>
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <button aria-label="open settings" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
+                                    <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
+                                        <button class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                                 <circle cx="12" cy="12" r="3"></circle>
                                             </svg>
+                                            <a href="/user" class="text-sm ml-2">User Setting</a>
                                         </button>
                                     </li>
-                                    <li class="cursor-pointer text-white pt-5 pb-3">
-                                        <button aria-label="open logs" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">
+                                    <li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center mb-6">
+                                        <button class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
                                             <svg  xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z"></path>
                                                 <rect x="3" y="4" width="18" height="4" rx="2"></rect>
                                                 <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10"></path>
                                                 <line x1="10" y1="12" x2="14" y2="12"></line>
                                             </svg>
+                                            <a href="/logout" class="text-sm ml-2">Logout</a>
                                         </button>
                                     </li>
                                 </ul>
@@ -417,7 +382,7 @@
                 <div class=" flex flex-col justify-between items-center w-full h-full">
                     <div class="relative overflow-auto w-full shadow-md sm:rounded-lg gap-3 flex flex-col sm:flex-row bg-white h-full justify-center items-center">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs overflow-auto w-full text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <thead class="text-xs w-full text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr class="text-left">
                                     {#each (data?.pesananHead ?? []) as pesanan}
                                         <th scope="col" class=" px-6 py-3">
@@ -432,11 +397,15 @@
                                         <form action="?/editStatus&current={page_now}" method="post" id="i{String(idxx)}"></form>
                                         {#each p as p, idx}
                                             <td class="truncate px-6 py-4">
-                                                {#if idx != 6}
+                                                {#if idx == 6}
+                                                    <input type="text" class="w-auto sm:-mx-2" maxlength="10" name="i{String(idx)}" id="" form="i{String(idxx)}" value={p}>
+                                                {:else if idx == 2}
+                                                <button class=" bg-green-500 py-1 px-2 text-white rounded-sm" on:click={() => (produk_info = data?.dataProdukModal?.get(Number(p)) ?? new Map())}>
+                                                    {p}
+                                                </button>
+                                                {:else}
                                                     {p}
                                                     <input type="hidden" name="i{String(idx)}" value={p} form="i{String(idxx)}">
-                                                {:else}
-                                                    <input type="text" class="w-auto sm:-mx-2" maxlength="10" name="i{String(idx)}" id="" form="i{String(idxx)}" value={p}>
                                                 {/if}
                                             </td>
                                         {/each}
@@ -493,6 +462,7 @@
 <script lang="ts">
 import { onMount } from 'svelte'
 import { page } from '$app/stores'
+import ProdukModal from "$lib/ProdukModal.svelte";
 import type { PageData, ActionData } from './$types';
 export let data: PageData;
 export let form: ActionData;
@@ -631,5 +601,7 @@ $: current_pageProduct = (Number($page.url.searchParams.get('skip') ?? 0)) / pag
 
 $: totalPagesPesanan = Math.ceil(totalItems[2] / pageSize);
 $: current_pagePesanan = (Number($page.url.searchParams.get('skip') ?? 0)) / pageSize;
+
+let produk_info: Map<string, string> = new Map();
 
 </script>

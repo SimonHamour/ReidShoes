@@ -37,6 +37,7 @@
                         <input type="password" name="password" required class="form-style" placeholder="Password">
                         <i class="input-icon uil uil-lock-alt"></i>
                       </div>
+                      {#if form?.successRegis}<p class="error">Register Done, Now Login</p>{/if}
 	                    {#if form?.incorrect}<p class="error">Email atau Password Salah!</p>{/if}
                       {#if data?.errorCokkies}<p class="error">{data?.errorCookies}</p>{/if}
                       <button type="submit" class="btn mt-4">Login</button>
@@ -65,7 +66,6 @@
                                 <input type="password" name="password" required class="form-style" placeholder="Password">
                                 <i class="input-icon uil uil-lock"></i>
                             </div>
-                            {#if form?.successRegis}<p class="error">Register Done</p>{/if}
                             {#if form?.error}<p class="error">{form?.error}</p>{/if}
                             <button type="submit" class="btn mt-4">Register</button>
                         </div>

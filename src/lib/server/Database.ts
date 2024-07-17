@@ -221,11 +221,9 @@ export async function getTotalItems() {
         totalItem.push(Number((row as RowDataPacket)[0].B));
         totalItem.push(Number((row as RowDataPacket)[0].C));
         conn.end(0);
-        console.log(totalItem);
         return totalItem;
     } catch (error) {
         conn.end(0);
-        console.log("getTotalItemsUser: " + (error as Error).message);
         return [0,0,0];
     }
 }
@@ -290,6 +288,7 @@ export async function illGetSomeCookiesForYou(getCookies: string) {
             [getCookies]
         );
         let email: string = (rows as RowDataPacket)[0]?.email ?? null;
+        
         if(null === email){
             conn.end(0);
             arrayOfError.push("Error");
@@ -360,7 +359,6 @@ export async function whereIsTheCookies(email: string, conn: mysql.Connection | 
         );
         let SessionId: string = (rows as RowDataPacket)[0]?.sessionid ?? "Error";
         conn.end(0);
-        console.log("342"+SessionId);
         return SessionId;
     } catch (error) {
         conn.end(0);
@@ -380,5 +378,26 @@ export async function iAteTheCookies(uuid: string) {
     } catch (error) {
         conn.end(0);
         return [(error as Error).message, null];
+    }
+}
+
+export async function dataProdukModal(id_produk: string) {
+    const conn = await openConn();
+    const data: Map<string, string> = new Map();
+    try {
+        const [result, fields] = await conn.execute(
+            'SELECT * FROM produk WHERE id_produk = ?',
+            [id_produk]
+        );
+        data.set("ID_Produk", (result as RowDataPacket)[0].id_produk?? "1");
+        data.set("MERK", (result as RowDataPacket)[0].MERK?? "DUMMY SHOES");
+        data.set("HARGA", (result as RowDataPacket)[0].HARGA?? "269");
+        data.set("STOK", (result as RowDataPacket)[0].STOK?? "1");
+        conn.end(0);
+        return data;
+    } catch (error) {
+        conn.end(0);
+        data.set("ERROR", (error as Error).message);
+        return data;
     }
 }

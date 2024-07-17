@@ -49,12 +49,9 @@ export const load = async ({ url, fetch, cookies }: Parameters<PageServerLoad>[0
     const userHead = getHeadAllUsers();
     const produkHead = getHeadAllProduk();
     const pesananHead = getHeadAllTransaction();
-
-    console.log(users);
-    console.log(pesanan);
-    console.log(produk);
-
     const totalItem: number[] = await getTotalItems();
+
+    const dataProdukModal: Map<number, Map<string, string>> = new Map();
     if(typeof users === 'string'){
         console.log(users);
         throw error(400, 'Bad Request: users');
@@ -63,8 +60,18 @@ export const load = async ({ url, fetch, cookies }: Parameters<PageServerLoad>[0
     if(typeof produk === 'string'){
         console.log(produk);
         throw error(400, 'Bad Request: produk');
+    }else{
+        for (let index = 0; index < produk.length; index++) {
+            const element = produk[index];
+            const dataProdukModal1: Map<string, string> = new Map();
+            dataProdukModal1.set("ID", element[0]);
+            dataProdukModal1.set("MERK", element[1]);
+            dataProdukModal1.set("HARGA", element[2]);
+            dataProdukModal1.set("STOK", element[3]);
+            dataProdukModal.set(Number(element[0]) || (index+1), dataProdukModal1);
+        }
     }
-
+    
     if(typeof pesanan === 'string'){
         throw error(400, 'Bad Request: pesanan');
     }
@@ -72,11 +79,10 @@ export const load = async ({ url, fetch, cookies }: Parameters<PageServerLoad>[0
     if(Current_User.includes("Error")) 
         redirect(303, "/login");
     
-    console.log(pesanan.length);
     if(!Current_User.includes("Error")){
         if(Current_User[4] == "user")
             redirect(301, "/");
-        return {totalItem: totalItem, Current_User, users: users, products: produk, pesanan: pesanan, current: current_page, userHead: userHead, productHead: produkHead, pesananHead: pesananHead};
+        return {dataProdukModal, totalItem: totalItem, Current_User, users: users, products: produk, pesanan: pesanan, current: current_page, userHead: userHead, productHead: produkHead, pesananHead: pesananHead};
     };
 };
 
@@ -97,8 +103,6 @@ export const actions: Actions = {
         const data = await request.formData();
         const id_produk = data.get('i0')?.toString();
         const stok = data.get('i6')?.toString();
-        console.log(id_produk);
-        console.log(stok);
         if (!id_produk || !stok) 
 			return fail(400, { missing: true });
         const result = await UpdateStatusTransaksi(id_produk, stok);
