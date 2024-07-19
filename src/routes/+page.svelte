@@ -2,10 +2,12 @@
 <link rel="stylesheet" href="style.css">
 <script lang="ts">
 
-    import type { PageData } from './$types';
-    export let data: PageData;
+    import DialogBox from '$lib/DialogBox.svelte';
+    import type { PageData, ActionData } from './$types';
+	export let data: PageData;
+	export let form: ActionData;
     import { onMount } from 'svelte';
-
+    let bool = (form?.duplicate || form?.error || form?.added) ? true : false;
     let isChecked = false;
     let menuClick: any;
     let next: any;
@@ -77,7 +79,7 @@
 
         heartButtons.forEach(button => {
             button.addEventListener('click', () => {
-                window.location.href = '';
+                window.location.href = '/logout';
             });
         });
         });
@@ -85,6 +87,8 @@
     });
     
 </script>
+<DialogBox bind:bool message="{(form?.error ? form?.error : (form?.duplicate ? 'Duplikasi: Produk sudah ditambahkan' : (form?.added ? 'Produk ditambahkan' : (data?.error ? data?.error : ''))))}" buttonMessage="Ok">
+</DialogBox>
 <header>
     <div style="padding: 20px; text-align: center;">
         <label class="switch">
@@ -116,7 +120,8 @@
         <span id="toggleLabel">English</span>
       </div>
     <div id="menu-bar" on:click={menuClick} class="fas fa-bars"></div>
-
+    <form action="?/addProduct" method="post" id="addProduct"></form>
+    <form action="?/addProduct" method="post" id="addProduct2"></form>
 
     <a href="#" class="logo">
         <img src="images/logo.png" alt="REID Logo" style="height: 90px; vertical-align: middle;">
@@ -139,8 +144,8 @@
     </nav>
 
     <div class="icons">
-        <a href="" class="fas fa-heart"></a>
-        <a href="" class="fas fa-shopping-cart"></a>
+        <a href="/logout" class="fas fa-heart"></a>
+        <a href="/order" class="fas fa-shopping-cart"></a>
         {#if !data?.user}<a href="/login" class="fas fa-user"></a>{/if}
         {#if data?.user}<a href="/user" class="fas fa-user"></a>{/if}
     </div>
@@ -158,19 +163,9 @@
                 <span data-en="Executive Oxford" data-id="Oxford Eksekutif">Executive Oxford</span>
                 <h3 data-en="Executive Oxford" data-id="Oxford Eksekutif">Executive Oxford</h3>
                 <p data-en="Classic leather oxford shoes with laces for formal events." data-id="Sepatu kulit pantofel klasik dengan tali untuk acara resmi.">Classic leather oxford shoes with laces for formal events.</p>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <input type="hidden" name="produk" value="1" form="addProduct">
+                <button class="btn" type="submit" form="addProduct" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
                 <br><br><br>
-                <div class="icons">
-                    <a href="" class="icon" style="margin-right: 10px;">
-                        <i class="fas fa-heart fa-2x"></i>
-                    </a>
-                    <a href="#" class="icon" style="margin-right: 10px;">
-                        <i class="fas fa-share fa-2x"></i>
-                    </a>
-                    <a href="#" class="icon">
-                        <i class="fas fa-eye fa-2x"></i>
-                    </a>
-                </div>
             </div>
             <div class="image">
                 <img src="images/eo3.png" class="shoe">
@@ -185,19 +180,9 @@
                 <span data-en="Lingard Black Dress Shoes Men" data-id="Sepatu Dress Black Lingard untuk Pria">Sepatu Dress Black Lingard untuk Pria</span>
                 <h3 data-en="Lingard Black Dress Shoes Men" data-id="Sepatu Dress Black Lingard untuk Pria">Lingard Black Dress Shoes Men</h3>
                 <p data-en="Minimalist yet still maintaining the essence of classic formal. Reid Lingard Black, your go-to shoe for day and evening." data-id="Minimalis tetapi tetap mengedepankan esensi klasik formal. Reid Lingard Black, sepatu andalan Anda untuk siang dan malam.">Lingard Black Dress Shoes Men</p>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <input type="hidden" name="produk" value="2" form="addProduct2">
+                <button class="btn" type="submit" form="addProduct2" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
                 <br><br><br>
-                <div class="icons">
-                    <a href="" class="icon" style="margin-right: 10px;">
-                        <i class="fas fa-heart fa-2x"></i>
-                    </a>
-                    <a href="#" class="icon" style="margin-right: 10px;">
-                        <i class="fas fa-share fa-2x"></i>
-                    </a>
-                    <a href="#" class="icon">
-                        <i class="fas fa-eye fa-2x"></i>
-                    </a>
-                </div>
             </div>
             <div class="image">
                 <img src="images/shoes2.png" class="shoe">
@@ -211,19 +196,10 @@
                 <span data-en="UrbanEdge Leather Shoes" data-id="Sepatu Kulit UrbanEdge">UrbanEdge Leather Shoes</span>
                 <h3 data-en="UrbanEdge Leather Shoes" data-id="Sepatu Kulit UrbanEdge">UrbanEdge Leather Shoes</h3>
                 <p data-en="Shoes with a modern design that are suitable for urban life, but still maintain classic leather elements." data-id="Sepatu dengan desain modern yang cocok untuk kehidupan perkotaan, tetapi tetap mempertahankan unsur-unsur kulit yang klasik.">UrbanEdge Leather Shoes</p>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <form action="?/addProduct" method="post" id="addProduct3"></form>
+                <input type="hidden" name="produk" value="3" form="addProduct3">
+                <button class="btn" type="submit" form="addProduct3" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
                 <br><br><br>
-                <div class="icons">
-                    <a href="" class="icon" style="margin-right: 10px;">
-                        <i class="fas fa-heart fa-2x"></i>
-                    </a>
-                    <a href="#" class="icon" style="margin-right: 10px;">
-                        <i class="fas fa-share fa-2x"></i>
-                    </a>
-                    <a href="#" class="icon">
-                        <i class="fas fa-eye fa-2x"></i>
-                    </a>
-                </div>
             </div>
             <div class="image">
                 <img src="images/uel.png" class="shoe" alt="">
@@ -270,11 +246,7 @@
     <div class="box-container">
 
         <div class="box">
-            <div class="icons">
-                <a href="" class="fas fa-heart"></a>
-                <a href="#" class="fas fa-share"></a>
-                <a href="#" class="fas fa-eye"></a>
-            </div>
+
             <img src="images/produk2.png" alt="" style="height: 150px; width: 150px;">
             <div class="content">
                 <h3 data-en="Orca Black Derby Shoes" data-id="Sepatu kulit Orca">Orca Black Derby Shoes</h3>
@@ -286,16 +258,14 @@
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                 </div>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <form action="?/addProduct" method="post" id="addProduct4"></form>
+                <input type="hidden" name="produk" value="4" form="addProduct4">
+                <button class="btn" type="submit" form="addProduct4" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             </div>
         </div>
 
         <div class="box">
-            <div class="icons">
-                <a href="" class="fas fa-heart"></a>
-                <a href="#" class="fas fa-share"></a>
-                <a href="#" class="fas fa-eye"></a>
-            </div>
+
             <img src="images/produk3.png" alt="" style="height: 200px; width: 200px;">
             <div class="content">
                 <h3 data-en="Reid oslo black boots shoes man" data-id="Reid oslo sepatu bot hitam pria">Reid oslo black boots shoes man</h3>
@@ -307,16 +277,14 @@
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                 </div>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <form action="?/addProduct" method="post" id="addProduct5"></form>
+                <input type="hidden" name="produk" value="5" form="addProduct5">
+                <button class="btn" type="submit" form="addProduct5" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             </div>
         </div>
 
         <div class="box">
-            <div class="icons">
-                <a href="" class="fas fa-heart"></a>
-                <a href="#" class="fas fa-share"></a>
-                <a href="#" class="fas fa-eye"></a>
-            </div>
+
             <img src="images/produk4.png" alt="" style="height: 200px; width: 200px;">
             <div class="content">
                 <h3 data-en="Archer Suede Tan Loafer Shoes" data-id="Sepatu Pemanah Tan Suede">Archer Suede Tan Loafer Shoes</h3>
@@ -328,16 +296,14 @@
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                 </div>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <form action="?/addProduct" method="post" id="addProduct6"></form>
+                <input type="hidden" name="produk" value="6" form="addProduct6">
+                <button class="btn" type="submit" form="addProduct6" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             </div>
         </div>
 
         <div class="box">
-            <div class="icons">
-                <a href="" class="fas fa-heart"></a>
-                <a href="#" class="fas fa-share"></a>
-                <a href="#" class="fas fa-eye"></a>
-            </div>
+
             <img src="images/produk5.png" alt="" style="height: 200px; width: 200px;">
             <div class="content">
                 <h3 data-en="Reid Daxon Black" data-id="Reid Daxon Hitam">Reid Daxon Black
@@ -350,16 +316,14 @@
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                 </div>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <form action="?/addProduct" method="post" id="addProduct7"></form>
+                <input type="hidden" name="produk" value="7" form="addProduct7">
+                <button class="btn" type="submit" form="addProduct7" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             </div>
         </div>
 
         <div class="box">
-            <div class="icons">
-                <a href="" class="fas fa-heart"></a>
-                <a href="#" class="fas fa-share"></a>
-                <a href="#" class="fas fa-eye"></a>
-            </div>
+
             <img src="images/produk6.png" alt="" style="height: 200px; width: 200px;">
             <div class="content">
                 <h3 data-en="Chelsea Black Boots Shoes" data-id="Sepatu Boots Hitam Chelsea">Chelsea Black Boots Shoes</h3>
@@ -371,16 +335,14 @@
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                 </div>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <form action="?/addProduct" method="post" id="addProduct8"></form>
+                <input type="hidden" name="produk" value="8" form="addProduct8">
+                <button class="btn" type="submit" form="addProduct8" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             </div>
         </div>
 
         <div class="box">
-            <div class="icons">
-                <a href="" class="fas fa-heart"></a>
-                <a href="#" class="fas fa-share"></a>
-                <a href="#" class="fas fa-eye"></a>
-            </div>
+
             <img src="images/produk7.png" alt="" style="height: 200px; width: 200px;">
             <div class="content">
                 <h3 data-en="Cerberus Brown Derby Shoes" data-id="Sepatu Derby Cerberus Coklat">Cerberus Brown Derby Shoes</h3>
@@ -392,7 +354,9 @@
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                 </div>
-                <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+                <form action="?/addProduct" method="post" id="addProduct18"></form>
+                <input type="hidden" name="produk" value="18" form="addProduct18">
+                <button class="btn" type="submit" form="addProduct18" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             </div>
         </div>
 
@@ -434,19 +398,9 @@
             <p data-en="Minimalist concept yet still maintaining the essence of classic formal. Reid Lingard Black, your go-to shoe for day and evening." data-id="Konsep minimalis dan kesederhanaan namun tetap mengedepankan esensi klasik formal. Reid Lingard Black, sepatu andalan Anda untuk siang dan malam.">Konsep minimalis dan kesederhanaan namun tetap mengedepankan esensi klasik formal. Reid Lingard Black, sepatu andalan Anda untuk siang dan malam.</p>
             <p data-en="-Formal shoes" data-id="-sepatu formal">-sepatu formal</p><p data-en="-Black color" data-id="-warna hitam">-warna hitam</p>
             <div class="price">Rp.240.000 <span data-en="Price: Rp.480.000" data-id="Harga: Rp.480.000">Rp.480.000</span></div>
-            <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">tambah ke keranjang</a>
+            <button class="btn" type="submit" form="addProduct2" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             <br><br><br>
-            <div class="icons">
-                <a href="" class="icon" style="margin-right: 10px;">
-                    <i class="fas fa-heart fa-2x"></i>
-                </a>
-                <a href="#" class="icon" style="margin-right: 10px;">
-                    <i class="fas fa-share fa-2x"></i>
-                </a>
-                <a href="#" class="icon">
-                    <i class="fas fa-eye fa-2x"></i>
-                </a>
-            </div>
+
         </div>
     </div>
 
@@ -478,19 +432,9 @@
             <p data-en="- Modern Design" data-id="-desain modern">-desain modern</p>    
             <p data-en="- Upper Semi Leather" data-id="-punggung semi kulit">-punggung semi kulit</p>
             <div class="price">Rp.239.000 <span data-en="Price: Rp.496.000" data-id="Harga: Rp.496.000">Rp.496.000</span></div>
-            <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">add to cart</a>
+            <button class="btn" type="submit" form="addProduct1" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             <br><br><br>
-            <div class="icons">
-                <a href="" class="icon" style="margin-right: 10px;">
-                    <i class="fas fa-heart fa-2x"></i>
-                </a>
-                <a href="#" class="icon" style="margin-right: 10px;">
-                    <i class="fas fa-share fa-2x"></i>
-                </a>
-                <a href="#" class="icon">
-                    <i class="fas fa-eye fa-2x"></i>
-                </a>
-            </div>
+
         </div>
 
     </div>
@@ -523,19 +467,9 @@
             <p data-en="- Upper Leather" data-id="-Punggung Kulit">- Upper Leather</p>
             <p data-en="- Color Black" data-id="-Warna Hitam">- Color Hitam</p>
             <div class="price">Rp.250.000 <span data-en="Price: Rp.495.000" data-id="Harga: Rp.495.000">Rp.495.000</span></div>
-            <a href="" class="btn" data-en="add to cart" data-id="tambah ke keranjang">tambah ke keranjang</a>
+            <button class="btn" type="submit" form="addProduct3" data-en="add to cart" data-id="tambah ke keranjang">add to cart</button>
             <br><br><br>
-            <div class="icons">
-                <a href="" class="icon" style="margin-right: 10px;">
-                    <i class="fas fa-heart fa-2x"></i>
-                </a>
-                <a href="#" class="icon" style="margin-right: 10px;">
-                    <i class="fas fa-share fa-2x"></i>
-                </a>
-                <a href="#" class="icon">
-                    <i class="fas fa-eye fa-2x"></i>
-                </a>
-            </div>
+
         </div>
 
     </div>

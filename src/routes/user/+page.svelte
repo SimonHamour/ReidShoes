@@ -79,12 +79,17 @@
         }
     </style>
 </svelte:head>
+<DialogBox bind:bool message="Alamat tidak ditemukan, harap isi alamat" buttonMessage="Baik">
+</DialogBox>
+<TransaksiModal bind:pesanan>
+</TransaksiModal>
 
 <header>
     <h1>Profil Pengguna</h1>
 </header>
 
 <nav>
+    <a href="/">Home</a>
     <a href="#edit-profile">Edit Profil</a>
     <a href="#track-order">Lacak Pesanan</a>
 </nav>
@@ -95,27 +100,27 @@
         <form id="profile-form" method="post" action="?/editUser">
             <div class="form-group">
                 <label for="id">ID USER:</label>
-                <input type="text" readonly id="iduser" name="id_user" value={data?.user[0] ?? ""}>
+                <input type="text" readonly id="iduser" name="id_user" value={(data?.user ?? [])[0] ?? ""}>
             </div>
             <div class="form-group">
                 <label for="name">Nama:</label>
-                <input type="text" readonly id="name" name="name" value={data?.user[2] ?? ""}>
+                <input type="text" readonly id="name" name="name" value={(data?.user ?? [])[2] ?? ""}>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" readonly id="email" name="email" value={data?.user[1] ?? ""}>
+                <input type="email" readonly id="email" name="email" value={(data?.user ?? [])[1] ?? ""}>
             </div>
             <div class="form-group">
                 <label for="address">Nomor Telepon:</label>
-                <input type="text" required id="phone" name="phone" value={data?.user[3] ?? ""}>
+                <input type="text" required id="phone" name="phone" value={(data?.user ?? [])[3] ?? ""}>
             </div>
             <div class="form-group">
                 <label for="address">Alamat:</label>
-                <input type="text" required id="address" name="address" value={data?.user[5] ?? ""}>
+                <input type="text" required id="address" name="address" value={(data?.user ?? [])[5] ?? ""}>
             </div>
             <div class="form-group">
                 <label for="address">Role:</label>
-                <input type="text" readonly id="role" name="role" value={data?.user[4] ?? ""}>
+                <input type="text" readonly id="role" name="role" value={(data?.user ?? [])[4] ?? ""}>
             </div>
             <div class="form-group">
                 <label for="address">Cureent Password:</label>
@@ -138,12 +143,12 @@
         {#if form?.success}<p class="error">Sukses Edit</p>{/if}
         {#if form?.result}<p class="error">{form.result}</p>{/if}
     </section>
-
-    <section id="track-order">
+<form action="?/trackorder" id="track" method="post"></form>
+    <section id="trackorder">
         <h2>Lacak Pesanan Anda</h2>
         <div class="track-order">
-            <input type="text" id="order-id" placeholder="Masukkan ID Pesanan">
-            <button on:click={trackOrder}>Lacak</button>
+            <input type="text" form="track" readonly id="order-id" name="nama" value="{(data?.user ?? [])[2] ?? ""}" placeholder="Masukkan Nama Anda">
+            <button type="submit" form="track">Lacak</button>
         </div>
         <div id="order-status"></div>
     </section>
@@ -154,29 +159,17 @@
 </footer>
 
 <script lang="ts">
+    import TransaksiModal from '$lib/TransaksiModal.svelte';
 	import { onMount } from "svelte";
     import type { PageData, ActionData } from './$types';
 	export let data: PageData;
 	export let form: ActionData;
-
-
-    let trackOrder: any = () => {};
+    import DialogBox from "$lib/DialogBox.svelte";
+    import { page } from '$app/stores';
+    let bool: Boolean = (($page.url.searchParams.get('address')) == "null" ? true : false);
+    let pesanan:string[][] = form?.res ?? [];
     onMount(()=> {
     // @ts-ignore
-    trackOrder = () => {
-        // @ts-ignore
-        var orderId = document.getElementById("order-id").value;
-        var orderStatus = document.getElementById("order-status");
-
-        // Logika pelacakan pesanan (simulasi)
-        if(orderId === "12345") {
-            // @ts-ignore
-            orderStatus.innerHTML = "<p>Status Pesanan: Sedang dikirim</p>";
-        } else {
-            // @ts-ignore
-            orderStatus.innerHTML = "<p>ID Pesanan tidak ditemukan</p>";
-        }
-    } 
     });
 </script>
 

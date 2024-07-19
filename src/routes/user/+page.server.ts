@@ -1,4 +1,4 @@
-import { illGetSomeCookiesForYou, Update } from "$lib/server/Database";
+import { illGetSomeCookiesForYou, searchBarang, Update } from "$lib/server/Database";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "../$types";
 
@@ -10,6 +10,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
         redirect(303, "/login");
     };
     if(!user.includes("Error")){
+        
         return { user };
     };
 };
@@ -42,5 +43,15 @@ export const actions: Actions = {
         else
             return { result }
 
+    },
+    trackorder: async ({request}) => {
+        const data = await request.formData();
+		const name: string = data.get('nama')?.toString() ?? "";
+        
+        const res = await searchBarang(name);
+        if(typeof res !== "string")
+            return {res};
+        else
+            return {error: res};
     }
 } satisfies Actions;

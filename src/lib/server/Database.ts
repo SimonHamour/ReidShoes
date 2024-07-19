@@ -43,6 +43,118 @@ export async function Login(email: string, password: string){
     }
 }
 
+export async function insertCart(id_produk: number, id_user: string) {
+    const conn = await openConn();
+    try {
+        //Create new cart
+        const [tempRes, fields] = await conn.execute(
+            'SELECT id_keranjang FROM keranjang WHERE id_user = ?',
+            [id_user]
+        );
+        const sayapKanan = (tempRes as RowDataPacket)[0]?.id_keranjang ?? 0;
+        if(sayapKanan != 0){
+            const [tempRes2, fields] = await conn.execute(
+                'SELECT * FROM (SELECT * FROM keranjang GROUP BY id_keranjang) temp WHERE id_keranjang NOT IN (SELECT produk FROM transaksi t WHERE t.produk = temp.id_keranjang);'
+            );
+            const [tempRes3, fields2] = await conn.execute(
+                'SELECT id_produk FROM keranjang WHERE id_keranjang = ? GROUP BY id_produk HAVING COUNT(*) = 1;',
+                [sayapKanan]
+            );
+            const keduaSayap = (tempRes3 as RowDataPacket)[0]?.id_produk ?? 0;
+            if(keduaSayap == id_produk){
+                conn.end(0);
+                return "Duplicate";
+            }
+            if((tempRes2 as RowDataPacket)[0].id_keranjang){
+                const id = (tempRes2 as RowDataPacket)[0].id_keranjang;
+                await conn.execute(
+                    'INSERT INTO keranjang VALUES (?, ?, ?)',
+                    [id, id_produk, id_user]
+                );
+                conn.end(0);
+                return "True";
+            }
+        }
+        await conn.execute(
+            'INSERT INTO keranjang VALUES (?, ?, ?)',
+            [Math.floor(Math.random()*999999) + 100000, id_produk, id_user]
+        );
+        conn.end(0);
+        return "True";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message;
+    }finally{
+        conn.end(0);
+    }
+}
+
+export async function getIdCart(id_user: string) {
+    const conn = await openConn();
+    try {
+        //Create new cart
+        const [tempRes, fields] = await conn.execute(
+            'SELECT id_keranjang FROM keranjang WHERE id_user = ?',
+            [id_user]
+        );
+        if((tempRes as RowDataPacket)[0]){
+            const [tempRes2, fields] = await conn.execute(
+                'SELECT * FROM (SELECT * FROM keranjang GROUP BY id_keranjang) temp WHERE id_keranjang NOT IN (SELECT produk FROM transaksi t WHERE t.produk = temp.id_keranjang);'
+            );
+            if((tempRes2 as RowDataPacket)[0]){
+                const id = (tempRes2 as RowDataPacket)[0].id_keranjang;
+                conn.end(0);
+                return Number(id);
+            }
+        }
+        conn.end(0);
+        return "404";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message;
+    } finally{
+        conn.end(0);
+    }
+}
+
+export async function getCart(id_user: string) {
+    const conn = await openConn();
+    const results: Array<Array<string>> = [];
+    try {
+        //Create new cart
+        const [tempRes, fields] = await conn.execute(
+            'SELECT id_keranjang FROM keranjang WHERE id_user = ?',
+            [id_user]
+        );
+        const sayapKanan = (tempRes as RowDataPacket)[0]?.id_keranjang ?? 0;
+        if(sayapKanan != 0){
+            const [tempRes2, fields] = await conn.execute(
+                'SELECT p.* FROM (SELECT id_produk FROM keranjang temp WHERE id_keranjang NOT IN (SELECT produk FROM transaksi t WHERE t.produk)) joinan LEFT JOIN produk p ON joinan.id_produk = p.id_produk;'
+            );
+            if((tempRes2 as RowDataPacket)[0]){
+                for (let index = 0; index < (tempRes2 as RowDataPacket).length; index++) {
+                    const duniaFana: Array<string> = [];
+                    duniaFana.push((tempRes2 as RowDataPacket)[index].id_produk);
+                    duniaFana.push((tempRes2 as RowDataPacket)[index].MERK);
+                    duniaFana.push((tempRes2 as RowDataPacket)[index].HARGA);
+                    duniaFana.push((tempRes2 as RowDataPacket)[index].STOK);
+                    duniaFana.push((tempRes2 as RowDataPacket)[index].images);
+                    results.push(duniaFana);
+                }
+                conn.end(0);
+                return results;
+            }
+        }
+        conn.end(0);
+        return "404";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message;
+    }   finally{
+        conn.end(0);
+    }
+}
+
 async function checkUser(id_user: string, password: string){
     const conn = await openConn();
     try {
@@ -254,7 +366,7 @@ export function getHeadAllTransaction(){
     const userHead: Array<string> = [];
     userHead.push("ID Transaksi");
     userHead.push("Nama Pembeli");
-    userHead.push("Produk-nya");
+    userHead.push("ID Keranjangx");
     userHead.push("Berapa banyak");
     userHead.push("Total harga");
     userHead.push("Tanggal Transaksi");
@@ -263,15 +375,25 @@ export function getHeadAllTransaction(){
     return userHead;
 }
 
+// async function openConn(): Promise<mysql.Connection>{
+//     return await mysql.createConnection({
+//         host: 'fr9.h.filess.io',
+//         port: 3305,
+//         user: 'ReidShoes_freedompen',
+//         password: '5445e0df8c0838128111b3146cd71f8b025fe29d',
+//         database: 'ReidShoes_freedompen',
+//       });
+// }
+
 async function openConn(): Promise<mysql.Connection>{
-    return await mysql.createConnection({
-        host: 'fr9.h.filess.io',
-        port: 3305,
-        user: 'ReidShoes_freedompen',
-        password: '5445e0df8c0838128111b3146cd71f8b025fe29d',
-        database: 'ReidShoes_freedompen',
-      });
-}
+        return await mysql.createConnection({
+            host: 'bqq.h.filess.io',
+            port: 3305,
+            user: 'udinsedunia_personalit',
+            password: '8bd3075b30081354c099b1bcbac62409d5847632',
+            database: 'udinsedunia_personalit',
+          });
+    }
 
 export async function illGetSomeCookiesForYou(getCookies: string) {
     const conn = await openConn();
@@ -330,6 +452,8 @@ export async function illGetSomeCookiesForYou(getCookies: string) {
         arrayOfError.push("Error");
         arrayOfError.push((error as Error).message);
         return arrayOfError;
+    }finally{
+        conn.end(0);
     }
 }
 
@@ -399,5 +523,102 @@ export async function dataProdukModal(id_produk: string) {
         conn.end(0);
         data.set("ERROR", (error as Error).message);
         return data;
+    }
+}
+
+export async function setMidtrans(id_keranjang: number, token: string) {
+    const conn = await openConn();
+    try {
+        await conn.execute(
+            'INSERT INTO midtrans (token, id_keranjang) VALUES (?, ?)',
+            [token, id_keranjang]
+        );
+        conn.end(0);
+        return "Success";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message
+    }finally{
+        conn.end(0);
+    }
+}
+
+export async function setMidtransStatus(id_keranjang: number, status: string) {
+    const conn = await openConn();
+    try {
+        await conn.execute(
+            'UPDATE midtrans SET status = ? WHERE id_keranjang = ?',
+            [status, id_keranjang]
+        );
+        conn.end(0);
+        return "Success";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message
+    }finally{
+        conn.end(0);
+    }
+}
+
+export async function setTransaksi(id_keranjang: number, name: string, totalAmm: number, total: number) {
+    const conn = await openConn();
+    try {
+        await conn.execute(
+            'INSERT INTO transaksi (name, produk, kuantitas, harga) VALUES (?, ?, ?, ?)',
+            [name, id_keranjang, totalAmm, total]
+        );
+        conn.end(0);
+        return "Success";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message
+    }finally{
+        conn.end(0);
+    }
+}
+
+export async function searchBarang(name: string) {
+    const conn = await openConn();
+    try {
+        const [rows, field] = await conn.execute(
+            "SELECT * FROM transaksi WHERE name = ? AND status != 'Success';",
+            [name]
+        );
+        let userInfo: Array<Array<string>> = [];
+        for (let index = 0; index < (rows as RowDataPacket).length; index++) {
+            let userInfo2: Array<string> = [];
+            userInfo2.push((rows as RowDataPacket)[index]?.id ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.name ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.produk ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.kuantitas ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.harga ?? "");
+            userInfo2.push(String((rows as RowDataPacket)[index]?.tanggal).substring(0,15) ?? "");
+            userInfo2.push((rows as RowDataPacket)[index]?.status ?? "");
+            userInfo.push(userInfo2);
+        }
+        conn.end(0);
+        return userInfo;
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message
+    }finally{
+        conn.end(0);
+    }
+}
+
+export async function removeProdukKeranjang(id_keranjang: number, id_produk: number) {
+    const conn = await openConn();
+    try {
+        await conn.execute(
+            'DELETE FROM keranjang WHERE id_keranjang = ? AND id_produk = ?',
+            [id_keranjang, id_produk]
+        );
+        conn.end(0);
+        return "Success";
+    } catch (error) {
+        conn.end(0);
+        return (error as Error).message
+    }finally{
+        conn.end(0);
     }
 }

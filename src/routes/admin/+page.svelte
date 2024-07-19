@@ -5,9 +5,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="admin.css">
 </svelte:head>
-<ProdukModal bind:produk_info>
-    
-</ProdukModal>
 <div class="w-screen h-screen overflow-auto flex flex-row relative gap-1">
     
         <nav class="fixed sm:relative z-10 flex flex-col h-screen overflow-hidden items-center justify-center min-w-[240px] font-sans text-base font-normal text-gray-700">
