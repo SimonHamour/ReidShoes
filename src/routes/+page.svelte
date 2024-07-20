@@ -132,7 +132,7 @@
         <a href="#home" data-en="home" data-id="home">home</a>
         <a href="#products" data-en="products" data-id="produk">products</a>
         <div class="dropdown">
-            <a href="" class="dropbtn" data-en="categories" data-id="kategori">categories</a>
+            <a href="#acara" class="dropbtn" data-en="categories" data-id="kategori">categories</a>
             <div class="dropdown-content">
                 <a href="" data-en="Special Occasion" data-id="Acara Spesial">Special Occasion</a>
                 <a href="" data-en="Casual" data-id="casual">Casual</a>

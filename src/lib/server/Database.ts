@@ -375,25 +375,25 @@ export function getHeadAllTransaction(){
     return userHead;
 }
 
-async function openConn(): Promise<mysql.Connection>{
-    return await mysql.createConnection({
-        host: 'fr9.h.filess.io',
-        port: 3305,
-        user: 'ReidShoes_freedompen',
-        password: '5445e0df8c0838128111b3146cd71f8b025fe29d',
-        database: 'ReidShoes_freedompen',
-      });
-}
-
 // async function openConn(): Promise<mysql.Connection>{
-//         return await mysql.createConnection({
-//             host: 'bqq.h.filess.io',
-//             port: 3305,
-//             user: 'udinsedunia_personalit',
-//             password: '8bd3075b30081354c099b1bcbac62409d5847632',
-//             database: 'udinsedunia_personalit',
-//           });
-//     }
+//     return await mysql.createConnection({
+//         host: 'fr9.h.filess.io',
+//         port: 3305,
+//         user: 'ReidShoes_freedompen',
+//         password: '5445e0df8c0838128111b3146cd71f8b025fe29d',
+//         database: 'ReidShoes_freedompen',
+//       });
+// }
+
+async function openConn(): Promise<mysql.Connection>{
+        return await mysql.createConnection({
+            host: 'bqq.h.filess.io',
+            port: 3305,
+            user: 'udinsedunia_personalit',
+            password: '8bd3075b30081354c099b1bcbac62409d5847632',
+            database: 'udinsedunia_personalit',
+          });
+    }
 
 export async function illGetSomeCookiesForYou(getCookies: string) {
     const conn = await openConn();
