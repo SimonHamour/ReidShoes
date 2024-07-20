@@ -6,11 +6,9 @@
 </svelte:head>
 <form action="?/midTrans" method="post" id="midtrans"></form>
 <form action="?/success" method="post" id="success"></form>
-<form action="?/remove" method="post" id="remove"></form>
 <div class="bg-gray-100 h-screen py-8">
     <div class="container mx-auto px-4">
         <h1 class="text-2xl font-semibold mb-4">Shopping Cart</h1>
-        <a href="/">Home</a>
         <div class="flex flex-col md:flex-row gap-4">
             <div class="md:w-3/4">
                 <div class="bg-white rounded-lg shadow-md p-6 mb-4">
@@ -48,9 +46,7 @@
                                                 ammTotal = ammProduk.reduce((partialSum, a) => partialSum + a, 0);
                                                 totalPriceProduk[idx] *= ammProduk[idx];
                                             }} class="border rounded-md py-2 px-4 ml-2">+</button>
-                                            <input type="hidden" value="{ress.length-1}" name="i" form="remove">
-                                            <input type="hidden" value="{ress[idx][0]}" name="{String(idx)}" form="remove">
-                                            <button type="submit" form="remove" class="border rounded-md bg-red-600 py-2 px-4 ml-2">REMOVE</button>
+                                            <button class="border rounded-md bg-red-600 py-2 px-4 ml-2">REMOVE</button>
                                         </div>
                                     </td>
                                     <td class="py-4">Rp {totalPriceProduk[idx]}.-</td>
@@ -121,7 +117,6 @@
                     <input type="hidden" name="id_keranjang" value="{data?.currCart ?? ''}" form="midtrans">
                     <input type="hidden" name="total" value="{TOTAL}" form="success">
                     <input type="hidden" name="id_keranjang" value="{data?.currCart ?? ''}" form="success">
-                    <input type="hidden" name="id_keranjang" value="{data?.currCart ?? ''}" form="remove">
                     <input type="hidden" name="status" value="{status}" form="success">
                     <input type="hidden" name="ammTotal" value="{ammTotal}" form="success">
                     {#if form?.transaction_token}
@@ -157,7 +152,7 @@
     let priceProduk: string[] = [];
     let totalPriceProduk: number[] = [];
     let ammProduk: number[] = [];
-
+    let ammTotal: number = 0;
     ress.forEach(produk => {
         nameProduk.push(produk[1]);
         imgProduk.push(produk[4]);
@@ -166,7 +161,6 @@
         Subtotal += Number(produk[2]);
         ammProduk.push(1);
     });
-    let ammTotal: number = ammProduk.reduce((partialSum, a) => partialSum + a, 0);;
     let status = "Pending";
     console.log(form?.transaction_token);
     onMount(()=> {
